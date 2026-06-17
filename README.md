@@ -1,5 +1,5 @@
 # bsm_wc26
-Data gathering and analysis for the FIFA 2026 Men's World Cup. For use of @bad.sports.metrics on Instagram, but available for public use of wc26_data.py.
+Data gathering and analysis for the FIFA 2026 Men's World Cup. For use of @bad.sports.metrics on Instagram, but available for public use!
 2 files necessary for anyone interested in using this for their own use: wc26_data.py and matches.txt (contains ids needed for data pulling). Matches.txt will be manually updated every day as new matches come in.
 
 ## wc26_data.py
@@ -14,3 +14,14 @@ returns a dataframe of current FIFA rankings
 
 **get_ids**
 returns game IDs from a txt file of IDs that I manually update (matches.txt)
+
+## Example Code on how to Use 
+
+```
+import sys
+sys.path.append('..')
+from wc26_data import get_wc26_data, get_ids
+
+matches = get_ids('.../matches.txt')
+my_data = get_wc26_data(matches=matches) #returns a Pandas DataFrame
+```
