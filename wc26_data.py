@@ -3,7 +3,7 @@ import json
 import pandas as pd
 import time
 
-def get_wc26_data(matches): #matches=List of FIFA match IDs
+def get_wc26_data(matches): #list of matches
     dataframes = []
     estimated_time = len(matches)*6
     print(f"Approximate time of data pulling completion: {estimated_time} seconds.")
@@ -111,3 +111,13 @@ def get_country_rankings():
     df = pd.DataFrame(rows)
     print("Dataframe complete.")
     return df
+
+def get_ids(file): #use full file name, not condensed path
+    with open(f"{file}", "r", encoding="utf-8") as file:
+        # 1. Read the entire file as a single string
+        content = file.read()
+        
+        # 2. Split by commas and convert each item to an integer
+        number_list = [int(num.strip()) for num in content.split(",") if num.strip()]
+
+    return number_list
