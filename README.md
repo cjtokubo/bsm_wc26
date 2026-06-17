@@ -17,7 +17,7 @@ returns game IDs from a txt file of IDs that I manually update (matches.txt)
 
 ## Example Code on how to Use 
 
-First download wc26_data.py and matches.txt to your local machine
+First download wc26_data.py and matches.txt to your local machine. I don't know how to make it a library yet lol
 ```
 import sys
 sys.path.append('..')
