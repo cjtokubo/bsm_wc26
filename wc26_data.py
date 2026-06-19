@@ -39,7 +39,8 @@ def get_wc26_data(matches): #list of matches
             "Formation": [match_info['Home']['Tactics']],
             "IdMatch": [match_info['IdMatch']],
             "GameNum": [match_info['MatchNumber']],
-            "StatsId": [match_info['Properties']['IdIFES']]
+            "StatsId": [match_info['Properties']['IdIFES']],
+            "MatchTime": [match_info['MatchTime']]
         })
 
         data_away = pd.DataFrame({
@@ -52,7 +53,8 @@ def get_wc26_data(matches): #list of matches
             "Formation": [match_info['Away']['Tactics']],
             "IdMatch": [match_info['IdMatch']],
             "GameNum": [match_info['MatchNumber']],
-            "StatsId": [match_info['Properties']['IdIFES']]
+            "StatsId": [match_info['Properties']['IdIFES']],
+            "MatchTime": [match_info['MatchTime']]
         })
 
         data_game = pd.concat([data_home,data_away]).reset_index()
