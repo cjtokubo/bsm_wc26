@@ -83,7 +83,7 @@ def get_wc26_data(matches): #list of matches
     return combined
 
 def get_player_data(matches):
-    print("Estimated data pulling time", len(matches)*6)
+    print("Estimated data pulling time", len(matches)*4.5)
     total_player_data = []
     for i in range (len(matches)):
         match_id = matches[i]
@@ -136,7 +136,8 @@ def get_player_data(matches):
                 'ShirtNumber': [current_player['ShirtNumber']],
                 'Status': [current_player['Status']],
                 'SpecialStatus': [current_player['SpecialStatus']],
-                'Captain': [current_player['Captain']]
+                'Captain': [current_player['Captain']],
+                'PositionType': [current_player['Position']]
             })
             joined_info = pd.concat([player_info, data_home], axis=1)
             player_home.append(joined_info)
@@ -152,7 +153,8 @@ def get_player_data(matches):
                 'ShirtNumber': [current_player['ShirtNumber']],
                 'Status': [current_player['Status']],
                 'SpecialStatus': [current_player['SpecialStatus']],
-                'Captain': [current_player['Captain']]
+                'Captain': [current_player['Captain']],
+                'PositionType': [current_player['Position']]
             })
             joined_info = pd.concat([player_info, data_away], axis=1)
             player_away.append(joined_info)
