@@ -219,6 +219,51 @@ def get_country_rankings():
     print("Dataframe complete.")
     return df
 
+def get_play_by_play(matches):
+    print(f"estimated time: {len(matches)*4.5} seconds")
+    list_dfs = []
+    for i in range(len(matches)):
+        match_id = matches[i]
+        url3 = f"https://api.fifa.com/api/v3/timelines/{match_id}?language=en"
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
+        response = requests.get(url3, headers=headers)
+        if response.status_code == 200:
+            try:
+                match_info = response.json()
+            except json.JSONDecodeError:
+                print("Error: Could not decode JSON. Response text:") 
+        else:
+            print(f"Error: Request failed with status code {response.status_code}. Response text:")
+            
+        rows = []
+
+        for event in match_info["Event"]:
+            type_list = event.get("TypeLocalized", [])
+            desc_list = event.get("EventDescription", [])
+            
+            rows.append({
+                "IdStage": match_info["IdStage"],
+                "IdMatch": match_info["IdMatch"],
+                "IdTeam": event.get("IdTeam"),
+                "IdPlayer": event.get("IdPlayer"),
+                "EventType": type_list[0]["Description"] if type_list else None,
+                "Description": desc_list[0]["Description"] if desc_list else None,
+                "MatchMinute": event.get("MatchMinute"),
+                "PosX": event.get("PositionX"),
+                "PosY": event.get("PositionY")
+            })
+
+        df = pd.DataFrame(rows)
+        list_dfs.append(df)
+        time.sleep(4)
+    
+    combined_df = pd.concat(list_dfs, axis=0, ignore_index=True)
+    return combined_df
+    print("PBP data complete!")
+        
+
 def get_ids(file): #use full file name, not condensed path
     with open(f"{file}", "r", encoding="utf-8") as file:
         # 1. Read the entire file as a single string
