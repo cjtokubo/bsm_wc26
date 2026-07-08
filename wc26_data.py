@@ -2,6 +2,7 @@ import requests
 import json
 import pandas as pd
 import time
+import random
 
 def get_wc26_data(matches): #list of matches
     dataframes = []
@@ -31,7 +32,7 @@ def get_wc26_data(matches): #list of matches
             
         data_home = pd.DataFrame({
             "Date": [match_info['Date']],
-            "Group": [match_info['GroupName'][0]['Description']],
+            "Group": [match_info["GroupName"][0]["Description"]if match_info.get("GroupName")else None],
             "Stage": [match_info['StageName'][0]['Description']],
             "TeamID": [match_info['Home']['IdTeam']],
             "TeamName": [match_info['Home']['ShortClubName']],
@@ -45,7 +46,7 @@ def get_wc26_data(matches): #list of matches
 
         data_away = pd.DataFrame({
             "Date": [match_info['Date']],
-            "Group": [match_info['GroupName'][0]['Description']],
+            "Group": [match_info['GroupName'][0]['Description']if match_info.get("GroupName")else None],
             "Stage": [match_info['StageName'][0]['Description']],
             "TeamID": [match_info['Away']['IdTeam']],
             "TeamName": [match_info['Away']['ShortClubName']],
@@ -62,7 +63,7 @@ def get_wc26_data(matches): #list of matches
         id_convert = match_info['Properties']['IdIFES']
         url = f"https://fdh-api.fifa.com/v1/stats/match/{id_convert}/teams.json"
 
-        time.sleep(3)
+        time.sleep(random.uniform(3, 5))
 
         r = requests.get(url, headers=headers)
         data = r.json()
@@ -76,7 +77,7 @@ def get_wc26_data(matches): #list of matches
         full = pd.concat([data_game, stats_game], axis=1).drop(columns='index')
         dataframes.append(full)
         
-        time.sleep(3)
+        time.sleep(random.uniform(3, 5))
         
     combined = pd.concat(dataframes, axis=0, ignore_index=True)
     print("Dataframe Complete")
@@ -104,7 +105,7 @@ def get_player_data(matches):
             
         data_home = pd.DataFrame({
             "Date": [match_info['Date']],
-            "Group": [match_info['GroupName'][0]['Description']],
+            "Group": [match_info['GroupName'][0]['Description']if match_info.get("GroupName")else None],
             "Stage": [match_info['StageName'][0]['Description']],
             "TeamID": [match_info['HomeTeam']['IdTeam']],
             "TeamName": [match_info['HomeTeam']['TeamName'][0]['Description']],
@@ -116,7 +117,7 @@ def get_player_data(matches):
 
         data_away = pd.DataFrame({
             "Date": [match_info['Date']],
-            "Group": [match_info['GroupName'][0]['Description']],
+            "Group": [match_info['GroupName'][0]['Description']if match_info.get("GroupName")else None],
             "Stage": [match_info['StageName'][0]['Description']],
             "TeamID": [match_info['AwayTeam']['IdTeam']],
             "TeamName": [match_info['AwayTeam']['TeamName'][0]['Description']],
@@ -163,7 +164,7 @@ def get_player_data(matches):
         #combined to get all player data before game
         player_data_game = pd.concat([all_home_players,all_away_players]).reset_index()
         
-        time.sleep(2)
+        time.sleep(random.uniform(3, 5))
         
         id_convert = match_info['Properties']['IdIFES']
         url2= f"https://fdh-api.fifa.com/v1/stats/match/{id_convert}/players.json"
@@ -179,7 +180,7 @@ def get_player_data(matches):
         full = player_data_game.merge(stats_game, on='IdPlayer', how='left').drop(columns='index')
         
         total_player_data.append(full)
-        time.sleep(2)
+        time.sleep(random.uniform(3, 5))
     
     all_player_gamedata = pd.concat(total_player_data, axis=0, ignore_index=True)
     return all_player_gamedata
@@ -251,13 +252,15 @@ def get_play_by_play(matches):
                 "EventType": type_list[0]["Description"] if type_list else None,
                 "Description": desc_list[0]["Description"] if desc_list else None,
                 "MatchMinute": event.get("MatchMinute"),
+                "HomeGoals": event.get("HomeGoals"),
+                "AwayGoals": event.get("AwayGoals"),
                 "PosX": event.get("PositionX"),
                 "PosY": event.get("PositionY")
             })
 
         df = pd.DataFrame(rows)
         list_dfs.append(df)
-        time.sleep(4)
+        time.sleep(random.uniform(3, 5))
     
     combined_df = pd.concat(list_dfs, axis=0, ignore_index=True)
     return combined_df
