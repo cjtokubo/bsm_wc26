@@ -1,6 +1,8 @@
 # bsm_wc26
 Data gathering and analysis for the FIFA 2026 Men's World Cup. For use of @bad.sports.metrics on Instagram, but available for public use!
 2 files necessary for anyone interested in using this for their own use: wc26_data.py and matches.txt (contains ids needed for data pulling). Matches.txt will be manually updated every day as new matches come in.
+## Update 07/08/2026!
+Added a dataframes folder which contains all CSVs of all the player/team data. I will do my best to keep it up to date, although there are very few matches left so it won't be a problem
 
 ## wc26_data.py
 
