@@ -6,7 +6,7 @@ import random
 
 def get_wc26_data(matches): #list of matches
     dataframes = []
-    estimated_time = len(matches)*6.5
+    estimated_time = len(matches)*8.5
     print(f"Approximate time of data pulling completion: {estimated_time} seconds.")
     
     for i in range (len(matches)):
@@ -80,11 +80,11 @@ def get_wc26_data(matches): #list of matches
         time.sleep(random.uniform(3, 5))
         
     combined = pd.concat(dataframes, axis=0, ignore_index=True)
-    print("Dataframe Complete")
+    print("Team Data Pulling Complete")
     return combined
 
 def get_player_data(matches):
-    print("Estimated data pulling time", len(matches)*4.5)
+    print("Estimated data pulling time", len(matches)*8.5)
     total_player_data = []
     for i in range (len(matches)):
         match_id = matches[i]
@@ -183,8 +183,9 @@ def get_player_data(matches):
         time.sleep(random.uniform(3, 5))
     
     all_player_gamedata = pd.concat(total_player_data, axis=0, ignore_index=True)
+    print("Player Pulling Data Complete")
     return all_player_gamedata
-    print("Data pulling complete")
+    
         
         
     
@@ -217,7 +218,7 @@ def get_country_rankings():
         })
 
     df = pd.DataFrame(rows)
-    print("Dataframe complete.")
+    print("Rankings Dataframe Complete.")
     return df
 
 def get_play_by_play(matches):
@@ -263,8 +264,9 @@ def get_play_by_play(matches):
         time.sleep(random.uniform(3, 5))
     
     combined_df = pd.concat(list_dfs, axis=0, ignore_index=True)
+    print("Play-By-Play Dataframe Complete!")
     return combined_df
-    print("PBP data complete!")
+    
         
 
 def get_ids(file): #use full file name, not condensed path
